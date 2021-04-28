@@ -57,13 +57,14 @@ class TripAbl {
     }
     // HDS 3 image
     let uuBinary = null;
-
-    try {
-      uuBinary = await UuBinaryAbl.createBinary(awid, { data: dtoIn.image });
-    } catch (e) {
-      throw new Errors.Create.CreateBinaryFailed({ uuAppErrorMap }, e);
+    if (dtoIn.image) {
+      try {
+        uuBinary = await UuBinaryAbl.createBinary(awid, { data: dtoIn.image });
+      } catch (e) {
+        throw new Errors.Create.CreateBinaryFailed({ uuAppErrorMap }, e);
+      }
+      uuObject.userPic = uuBinary.code;
     }
-    uuObject.userPic = uuBinary.code;
 
     //HDS 4
     const participantsList = uuObject.participantList;

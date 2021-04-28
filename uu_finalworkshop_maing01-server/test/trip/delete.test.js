@@ -85,14 +85,18 @@ describe(`Testing ${USECASE} uuCmd...`, () => {
   test("ListNotEmpty", async () => {
     const errorCode = `${COMMONERRORCODE}/relatedParticipantsExist`;
     expect.assertions(2);
-
+    const {
+      data: { id: participantId },
+    } = await TestHelper.executePostCommand("participant/create", {
+      name: "participant",
+    });
     const {
       data: { id },
     } = await TestHelper.executePostCommand("trip/create", {
       name: "test",
       locationId: "606dc9a628dce24634a41885",
       capacity: 5,
-      participantList: ["6076ea42c3e04c3b0c0fcdcc"],
+      participantList: [participantId],
     });
 
     try {
