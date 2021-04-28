@@ -13,6 +13,18 @@
       "defaultUve": {
         "profileList": ["Public"]
       },
+      "uu-app-binarystore/createBinary": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
+      },
+      "uu-app-binarystore/getBinary": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
+      },
+      "uu-app-binarystore/getBinaryData": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
+      },
       "sys/uuAppWorkspace/initUve": {
         "sysStateList": ["created"],
         "profileList": ["Public","AwidLicenseOwner"]

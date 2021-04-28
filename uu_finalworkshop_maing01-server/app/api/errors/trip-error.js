@@ -51,6 +51,13 @@ const Create = {
       this.message = "Participant does not exist";
     }
   },
+  CreateBinaryFailed: class extends FinalworkshopMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}createBinaryFailed`;
+      this.message = "Create Binary Failed";
+    }
+  },
 };
 const Get = {
   UC_CODE: `${TRIP_ERROR_PREFIX}get/`,

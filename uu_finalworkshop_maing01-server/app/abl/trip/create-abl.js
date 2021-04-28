@@ -4,6 +4,7 @@ const { Validator } = require("uu_appg01_server").Validation;
 const { DaoFactory } = require("uu_appg01_server").ObjectStore;
 const { ValidationHelper } = require("uu_appg01_server").AppServer;
 const Errors = require("../../api/errors/trip-error.js");
+const UuBinaryAbl = require("uu_appg01_binarystore-cmd").UuBinaryAbl;
 
 const WARNINGS = {
   initUnsupportedKeys: {
@@ -55,6 +56,14 @@ class TripAbl {
       throw new Errors.Create.TripDaoCreateFailed({ uuAppErrorMap }, e);
     }
     // HDS 3 image
+    let uuBinary = null;
+
+    try {
+      uuBinary = await UuBinaryAbl.createBinary(awid, { data: dtoIn.image });
+    } catch (e) {
+      throw new Errors.Create.CreateBinaryFailed({ uuAppErrorMap }, e);
+    }
+    uuObject.userPic = uuBinary.code;
 
     //HDS 4
     const participantsList = uuObject.participantList;
