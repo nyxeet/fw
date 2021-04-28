@@ -3,7 +3,7 @@ const Path = require("path");
 const { Validator } = require("uu_appg01_server").Validation;
 const { DaoFactory } = require("uu_appg01_server").ObjectStore;
 const { ValidationHelper } = require("uu_appg01_server").AppServer;
-const Errors = require("../../api/errors/location-error.js");
+const Errors = require("../../api/errors/participant-error.js");
 
 const WARNINGS = {
   initUnsupportedKeys: {
@@ -11,10 +11,10 @@ const WARNINGS = {
   },
 };
 
-class LocationAbl {
+class ParticipantAbl {
   constructor() {
     this.validator = Validator.load();
-    this.dao = DaoFactory.getDao("location");
+    this.dao = DaoFactory.getDao("participant");
     this.mainDao = DaoFactory.getDao("finalworkshopMain");
   }
 
@@ -29,9 +29,8 @@ class LocationAbl {
     if (pierMain.state !== "active") {
       throw new Errors.Main.travelAgencyInstanceNotInProperState();
     }
-
     // HDS 1 - validation
-    const validationResult = this.validator.validate("locationCreateDtoInType", dtoIn);
+    const validationResult = this.validator.validate("participantCreateDtoInType", dtoIn);
     // A1, A2
     uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
@@ -46,19 +45,20 @@ class LocationAbl {
       ...dtoIn,
     };
 
-    let location = null;
+    let participant = null;
     try {
-      location = await this.dao.create(uuObject);
+      participant = await this.dao.create(uuObject);
     } catch (e) {
-      throw new Errors.Create.ListDaoCreateFailed({ uuAppErrorMap }, e);
+      throw new Errors.Create.ParticipantDaoCreateFailed({ uuAppErrorMap }, e);
     }
+    //HDS 3 add participant to trip list
 
-    //HDS 3 - return
+    //HDS 4 - return
     return {
-      ...location,
+      ...participant,
       uuAppErrorMap,
     };
   }
 }
 
-module.exports = new LocationAbl();
+module.exports = new ParticipantAbl();

@@ -12,6 +12,9 @@
         },
         "location": {
           "realization": "dao/LocationMongo"
+        },
+        "participant": {
+          "realization": "dao/ParticipantMongo"
         }
       }
     }

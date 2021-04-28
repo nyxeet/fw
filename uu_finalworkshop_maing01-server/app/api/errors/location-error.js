@@ -2,7 +2,23 @@
 
 const FinalworkshopMainUseCaseError = require("./finalworkshop-main-use-case-error.js");
 const LOCATION_ERROR_PREFIX = `${FinalworkshopMainUseCaseError.ERROR_PREFIX}location/`;
-
+const Main = {
+  UC_CODE: `${LOCATION_ERROR_PREFIX}main/`,
+  travelAgencyInstanceDoesNotExist: class extends FinalworkshopMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Main.UC_CODE}travelAgencyInstanceDoesNotExist`;
+      this.message = "Travel agency instance does not exist";
+    }
+  },
+  travelAgencyInstanceNotInProperState: class extends FinalworkshopMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Main.UC_CODE}travelAgencyInstanceNotInProperState`;
+      this.message = "Travel agency instance not in proper state";
+    }
+  },
+};
 const Create = {
   UC_CODE: `${LOCATION_ERROR_PREFIX}create/`,
   InvalidDtoIn: class extends FinalworkshopMainUseCaseError {
@@ -24,4 +40,5 @@ const Create = {
 
 module.exports = {
   Create,
+  Main,
 };

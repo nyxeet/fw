@@ -3,62 +3,68 @@ const Path = require("path");
 const { Validator } = require("uu_appg01_server").Validation;
 const { DaoFactory } = require("uu_appg01_server").ObjectStore;
 const { ValidationHelper } = require("uu_appg01_server").AppServer;
-const Errors = require("../../api/errors/location-error.js");
+const Errors = require("../../api/errors/trip-error.js");
 
 const WARNINGS = {
   initUnsupportedKeys: {
-    code: `${Errors.Create.UC_CODE}unsupportedKeys`,
+    code: `${Errors.Update.UC_CODE}unsupportedKeys`,
   },
 };
 
-class LocationAbl {
+class TripUpdateAbl {
   constructor() {
     this.validator = Validator.load();
-    this.dao = DaoFactory.getDao("location");
+    this.dao = DaoFactory.getDao("trip");
     this.mainDao = DaoFactory.getDao("finalworkshopMain");
   }
 
-  async create(uri, dtoIn, uuAppErrorMap = {}) {
+  async update(uri, dtoIn, uuAppErrorMap = {}) {
     const awid = uri.getAwid();
     const pierMain = await this.mainDao.get(awid);
 
     if (!pierMain) {
-      throw new Errors.Main.travelAgencyInstanceDoesNotExist();
+      throw new Error.Main.travelAgencyInstanceDoesNotExist();
     }
 
     if (pierMain.state !== "active") {
-      throw new Errors.Main.travelAgencyInstanceNotInProperState();
+      throw new Error.Main.travelAgencyInstanceNotInProperState();
     }
-
     // HDS 1 - validation
-    const validationResult = this.validator.validate("locationCreateDtoInType", dtoIn);
+    const validationResult = this.validator.validate("participantUpdateDtoInType", dtoIn);
     // A1, A2
     uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
       validationResult,
       WARNINGS.initUnsupportedKeys.code,
-      Errors.Create.InvalidDtoIn
+      Errors.Update.InvalidDtoIn
     );
 
     //HDS 2
+    let uuTrip = await this.dao.get(awid, dtoIn.id);
+
+    if (!uuTrip) {
+      throw new Errors.Get.TripDoesNotExist({ uuAppErrorMap }, { tripId: dtoIn.id });
+    }
     const uuObject = {
-      awid,
+      ...uuTrip,
       ...dtoIn,
     };
 
-    let location = null;
+    // HDS 3
+
     try {
-      location = await this.dao.create(uuObject);
+      uuTrip = await this.dao.update(uuObject);
     } catch (e) {
-      throw new Errors.Create.ListDaoCreateFailed({ uuAppErrorMap }, e);
+      throw new Errors.Update.ParticipantDaoUpdateFailed({ uuAppErrorMap }, e);
     }
 
-    //HDS 3 - return
+    // HDS 4
+
     return {
-      ...location,
+      ...uuTrip,
       uuAppErrorMap,
     };
   }
 }
 
-module.exports = new LocationAbl();
+module.exports = new TripUpdateAbl();

@@ -19,9 +19,33 @@
       },
       "trip/create": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["Executives"]
+      },
+      "trip/get": {
+        "sysStateList": ["active"],
+        "profileList": ["Executives", "Readers"]
+      },
+      "trip/list": {
+        "sysStateList": ["active"],
+        "profileList": ["Executives", "Readers"]
+      },
+      "trip/delete": {
+        "sysStateList": ["active"],
+        "profileList": ["Executives"]
+      },
+      "trip/update": {
+        "sysStateList": ["active"],
+        "profileList": ["Executives"]
       },
       "location/create": {
+        "sysStateList": ["active"],
+        "profileList": ["Executives"]
+      },
+      "participant/create": {
+        "sysStateList": ["active"],
+        "profileList": ["Executives"]
+      },
+      "participant/update": {
         "sysStateList": ["active"],
         "profileList": ["Public"]
       }

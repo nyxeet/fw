@@ -21,8 +21,38 @@
         "httpMethod": "POST",
         "type": "CMD"
       },
+      "trip/get": {
+        "realization": "api/controllers/TripController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "trip/update": {
+        "realization": "api/controllers/TripController.update",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "trip/list": {
+        "realization": "api/controllers/TripController.list",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "trip/delete": {
+        "realization": "api/controllers/TripController.delete",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
       "location/create": {
         "realization": "api/controllers/LocationController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "participant/create": {
+        "realization": "api/controllers/ParticipantController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "participant/update": {
+        "realization": "api/controllers/ParticipantController.update",
         "httpMethod": "POST",
         "type": "CMD"
       }

@@ -10,10 +10,9 @@ class FinalworkshopMainMongo extends UuObjectDao {
     return await super.insertOne(uuObject);
   }
 
-  async get(awid, id) {
+  async get(awid) {
     let filter = {
       awid: awid,
-      id: id,
     };
     return await super.findOne(filter);
   }

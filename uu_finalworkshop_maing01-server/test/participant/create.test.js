@@ -4,7 +4,7 @@ const initUuAppWorkspaceDtoIn = {
   uuAppProfileAuthorities: "urn:uu:GGPLUS4U",
 };
 
-const USECASE = "location/create";
+const USECASE = "participant/create";
 const COMMONERRORCODE = `uu-finalworkshop-main/${USECASE}`;
 const DTOIN = {
   name: "test",
@@ -34,7 +34,7 @@ describe(`Testing ${USECASE} uuCmd...`, () => {
     const {
       status,
       data: { id, name, uuAppErrorMap },
-    } = await TestHelper.executePostCommand("location/create", DTOIN);
+    } = await TestHelper.executePostCommand("participant/create", DTOIN);
 
     expect(status).toEqual(200);
     expect(name).toEqual(DTOIN.name);
@@ -64,7 +64,7 @@ describe(`Testing ${USECASE} uuCmd...`, () => {
     }
   });
   test("travelAgencyInstanceNotInProperState", async () => {
-    const errorCode = `uu-finalworkshop-main/location/main/travelAgencyInstanceNotInProperState`;
+    const errorCode = `uu-finalworkshop-main/participant/main/travelAgencyInstanceNotInProperState`;
     await TestHelper.executeDbScript(`db.${MAIN_DB}.updateOne( {awid: '${awid}'},{$set:{state: "passive"}})`);
 
     try {
@@ -75,7 +75,7 @@ describe(`Testing ${USECASE} uuCmd...`, () => {
     }
   });
   test("TravelAgencyInstanceDoesNotExist", async () => {
-    const errorCode = `uu-finalworkshop-main/location/main/travelAgencyInstanceDoesNotExist`;
+    const errorCode = `uu-finalworkshop-main/participant/main/travelAgencyInstanceDoesNotExist`;
     await TestHelper.executeDbScript(`db.${MAIN_DB}.drop()`);
 
     try {

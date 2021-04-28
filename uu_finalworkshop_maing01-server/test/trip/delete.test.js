@@ -4,16 +4,11 @@ const initUuAppWorkspaceDtoIn = {
   uuAppProfileAuthorities: "urn:uu:GGPLUS4U",
 };
 
-const USECASE = "trip/create";
+const USECASE = "trip/delete";
 const COMMONERRORCODE = `uu-finalworkshop-main/${USECASE}`;
-const MAIN_DB = "finalworkshopMain";
-const DTOIN = {
-  name: "test",
-  locationId: "606dc9a628dce24634a41885",
-  capacity: 5,
-  participantList: [],
-};
+const DTOIN = { forceDelete: false };
 const awid = "22222222222222222222222222222222";
+const MAIN_DB = "finalworkshopMain";
 
 beforeAll(async () => {
   await TestHelper.setup();
@@ -32,24 +27,34 @@ afterAll(async () => {
 
 describe(`Testing ${USECASE} uuCmd...`, () => {
   test("HDS", async () => {
-    expect.assertions(4);
-
     const {
-      status,
-      data: { id, name, uuAppErrorMap },
-    } = await TestHelper.executePostCommand("trip/create", DTOIN);
+      data: { id },
+    } = await TestHelper.executePostCommand("trip/create", {
+      name: "test",
+      locationId: "606dc9a628dce24634a41885",
+      capacity: 5,
+      participantList: [],
+    });
+
+    const { status } = await TestHelper.executePostCommand(USECASE, { id, ...DTOIN });
 
     expect(status).toEqual(200);
-    expect(name).toEqual(DTOIN.name);
-    expect(uuAppErrorMap).toBeDefined();
-    expect(id).toBeDefined();
   });
   test("Unsupported keys", async () => {
     const {
+      data: { id },
+    } = await TestHelper.executePostCommand("trip/create", {
+      name: "test",
+      locationId: "606dc9a628dce24634a41885",
+      capacity: 5,
+      participantList: [],
+    });
+    const {
       data: { uuAppErrorMap },
-    } = await TestHelper.executePostCommand("trip/create", { ...DTOIN, text: "test" });
+    } = await TestHelper.executePostCommand(USECASE, { id, ...DTOIN, unsup: "unsup" });
 
     const warningObject = `${COMMONERRORCODE}/unsupportedKeys`;
+
     const { type, message } = uuAppErrorMap[warningObject];
 
     expect(type).toEqual("warning");
@@ -66,12 +71,44 @@ describe(`Testing ${USECASE} uuCmd...`, () => {
       expect(e.status).toEqual(400);
     }
   });
-  test("travelAgencyInstanceNotInProperState", async () => {
-    const errorCode = `uu-finalworkshop-main/trip/main/travelAgencyInstanceNotInProperState`;
-    await TestHelper.executeDbScript(`db.${MAIN_DB}.updateOne( {awid: '${awid}'},{$set:{state: "passive"}})`);
+  test("TripDoesNotExist", async () => {
+    const errorCode = `${COMMONERRORCODE}/tripDoesNotExist`;
+    expect.assertions(2);
 
     try {
-      await TestHelper.executePostCommand(USECASE, DTOIN);
+      await TestHelper.executePostCommand(USECASE, { id: "6076ea42c3e04c3b0c0fcdcc", ...DTOIN });
+    } catch (e) {
+      expect(e.code).toEqual(errorCode);
+      expect(e.status).toEqual(400);
+    }
+  });
+  test("ListNotEmpty", async () => {
+    const errorCode = `${COMMONERRORCODE}/relatedParticipantsExist`;
+    expect.assertions(2);
+
+    const {
+      data: { id },
+    } = await TestHelper.executePostCommand("trip/create", {
+      name: "test",
+      locationId: "606dc9a628dce24634a41885",
+      capacity: 5,
+      participantList: ["6076ea42c3e04c3b0c0fcdcc"],
+    });
+
+    try {
+      await TestHelper.executePostCommand(USECASE, { id, forceDelete: false });
+    } catch (e) {
+      expect(e.code).toEqual(errorCode);
+      expect(e.status).toEqual(400);
+    }
+  });
+  test("travelAgencyInstanceNotInProperState", async () => {
+    const errorCode = `uu-finalworkshop-main/trip/main/travelAgencyInstanceNotInProperState`;
+
+    await TestHelper.executeDbScript(`db.${MAIN_DB}.updateOne( {awid: '${awid}'},{$set:{state: 'passive'}})`);
+
+    try {
+      await TestHelper.executePostCommand(USECASE, { id: "606dc9a628dce24634a41885", ...DTOIN });
     } catch (e) {
       expect(e.code).toEqual(errorCode);
       expect(e.status).toEqual(400);
@@ -82,7 +119,7 @@ describe(`Testing ${USECASE} uuCmd...`, () => {
     await TestHelper.executeDbScript(`db.${MAIN_DB}.drop()`);
 
     try {
-      await TestHelper.executePostCommand(USECASE, DTOIN);
+      await TestHelper.executePostCommand(USECASE, { id: "606dc9a628dce24634a41885", ...DTOIN });
     } catch (e) {
       expect(e.code).toEqual(errorCode);
       expect(e.status).toEqual(400);

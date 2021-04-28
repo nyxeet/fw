@@ -19,6 +19,7 @@ const logger = LoggerFactory.get("FinalworkshopMainAbl");
 class FinalworkshopMainAbl {
   constructor() {
     this.validator = Validator.load();
+    this.dao = DaoFactory.getDao("finalworkshopMain");
   }
 
   async init(uri, dtoIn, session) {
@@ -100,7 +101,7 @@ class FinalworkshopMainAbl {
         throw e;
       }
     }
-
+    await this.dao.create({ ...dtoIn, state: "active", awid });
     // HDS 4 - HDS N
     // TODO Implement according to application needs...
 

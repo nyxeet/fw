@@ -4,7 +4,7 @@ const initUuAppWorkspaceDtoIn = {
   uuAppProfileAuthorities: "urn:uu:GGPLUS4U",
 };
 
-const USECASE = "location/create";
+const USECASE = "participant/update";
 const COMMONERRORCODE = `uu-finalworkshop-main/${USECASE}`;
 const DTOIN = {
   name: "test",
@@ -29,22 +29,30 @@ afterAll(async () => {
 
 describe(`Testing ${USECASE} uuCmd...`, () => {
   test("HDS", async () => {
-    expect.assertions(4);
+    expect.assertions(5);
 
     const {
+      data: { id, name },
+    } = await TestHelper.executePostCommand("participant/create", DTOIN);
+    const {
       status,
-      data: { id, name, uuAppErrorMap },
-    } = await TestHelper.executePostCommand("location/create", DTOIN);
+      data: { id: newId, name: newName, uuAppErrorMap },
+    } = await TestHelper.executePostCommand(USECASE, { id, name: "newName" });
 
     expect(status).toEqual(200);
     expect(name).toEqual(DTOIN.name);
+    expect(newName).toEqual("newName");
     expect(uuAppErrorMap).toBeDefined();
-    expect(id).toBeDefined();
+    expect(id).toEqual(newId);
   });
   test("Unsupported keys", async () => {
     const {
+      status,
+      data: { id },
+    } = await TestHelper.executePostCommand("participant/create", DTOIN);
+    const {
       data: { uuAppErrorMap },
-    } = await TestHelper.executePostCommand(USECASE, { ...DTOIN, text: "test" });
+    } = await TestHelper.executePostCommand(USECASE, { id, name: "test", text: "text" });
 
     const warningObject = `${COMMONERRORCODE}/unsupportedKeys`;
     const { type, message } = uuAppErrorMap[warningObject];
@@ -63,8 +71,19 @@ describe(`Testing ${USECASE} uuCmd...`, () => {
       expect(e.status).toEqual(400);
     }
   });
+  test("ParticipantDoesNotExist", async () => {
+    const errorCode = `${COMMONERRORCODE}/participantDoesNotExist`;
+    expect.assertions(2);
+
+    try {
+      await TestHelper.executePostCommand(USECASE, { id: "6076ea42c3e04c3b0c0fcdcd", name: "hehehe" });
+    } catch (e) {
+      expect(e.code).toEqual(errorCode);
+      expect(e.status).toEqual(400);
+    }
+  });
   test("travelAgencyInstanceNotInProperState", async () => {
-    const errorCode = `uu-finalworkshop-main/location/main/travelAgencyInstanceNotInProperState`;
+    const errorCode = `uu-finalworkshop-main/participant/main/travelAgencyInstanceNotInProperState`;
     await TestHelper.executeDbScript(`db.${MAIN_DB}.updateOne( {awid: '${awid}'},{$set:{state: "passive"}})`);
 
     try {
@@ -75,7 +94,7 @@ describe(`Testing ${USECASE} uuCmd...`, () => {
     }
   });
   test("TravelAgencyInstanceDoesNotExist", async () => {
-    const errorCode = `uu-finalworkshop-main/location/main/travelAgencyInstanceDoesNotExist`;
+    const errorCode = `uu-finalworkshop-main/participant/main/travelAgencyInstanceDoesNotExist`;
     await TestHelper.executeDbScript(`db.${MAIN_DB}.drop()`);
 
     try {

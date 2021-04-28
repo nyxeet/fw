@@ -15,11 +15,21 @@ class TripAbl {
   constructor() {
     this.validator = Validator.load();
     this.dao = DaoFactory.getDao("trip");
+    this.locationDao = DaoFactory.getDao("location");
+    this.mainDao = DaoFactory.getDao("finalworkshopMain");
   }
 
   async create(uri, dtoIn, uuAppErrorMap = {}) {
     const awid = uri.getAwid();
+    const pierMain = await this.mainDao.get(awid);
 
+    if (!pierMain) {
+      throw new Errors.Main.travelAgencyInstanceDoesNotExist();
+    }
+
+    if (pierMain.state !== "active") {
+      throw new Errors.Main.travelAgencyInstanceNotInProperState();
+    }
     // HDS 1 - validation
     const validationResult = this.validator.validate("tripCreateDtoInType", dtoIn);
     // A1, A2
@@ -33,6 +43,7 @@ class TripAbl {
     //HDS 2
     const uuObject = {
       awid,
+      participantList: [],
       ...dtoIn,
     };
 
@@ -40,10 +51,18 @@ class TripAbl {
     try {
       trip = await this.dao.create(uuObject);
     } catch (e) {
-      throw new Errors.Create.ListDaoCreateFailed({ uuAppErrorMap }, e);
+      throw new Errors.Create.TripDaoCreateFailed({ uuAppErrorMap }, e);
+    }
+    // HDS 3 image
+
+    //HDS 4
+    try {
+      await this.locationDao.get(awid, dtoIn.locationId);
+    } catch (e) {
+      throw new Errors.Create.LocationDoesNotExist({ uuAppErrorMap }, e);
     }
 
-    //HDS 3 - return
+    //HDS 5 - return
     return {
       ...trip,
       uuAppErrorMap,
