@@ -44,6 +44,13 @@ const Create = {
       this.message = "Location does not exist.";
     }
   },
+  ParticipantDoesNotExist: class extends FinalworkshopMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}participantDoesNotExist`;
+      this.message = "Participant does not exist";
+    }
+  },
 };
 const Get = {
   UC_CODE: `${TRIP_ERROR_PREFIX}get/`,

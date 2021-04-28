@@ -17,6 +17,7 @@ class TripAbl {
     this.dao = DaoFactory.getDao("trip");
     this.locationDao = DaoFactory.getDao("location");
     this.mainDao = DaoFactory.getDao("finalworkshopMain");
+    this.participantDao = DaoFactory.getDao("participant");
   }
 
   async create(uri, dtoIn, uuAppErrorMap = {}) {
@@ -56,13 +57,20 @@ class TripAbl {
     // HDS 3 image
 
     //HDS 4
+    const participantsList = uuObject.participantList;
+    const dbList = await this.participantDao.findMany(awid, participantsList);
+    if (participantsList.length !== dbList.itemList.length) {
+      throw new Errors.Create.ParticipantDoesNotExist({ uuAppErrorMap });
+    }
+
+    //HDS 5
     try {
       await this.locationDao.get(awid, dtoIn.locationId);
     } catch (e) {
       throw new Errors.Create.LocationDoesNotExist({ uuAppErrorMap }, e);
     }
 
-    //HDS 5 - return
+    //HDS 6 - return
     return {
       ...trip,
       uuAppErrorMap,

@@ -1,7 +1,8 @@
 {
   "port": 8080,
   "uuSubAppDataStoreMap": {
-    "primary": "mongodb://127.0.0.1:27017/finalworkshopMainPrimary"
+    "primary": "mongodb://127.0.0.1:27017/finalworkshopMainPrimary",
+    "binary": "mongodb://127.0.0.1:27017/finalworkshopMainBinary"
   },
   "asid_license_owner_list": ["8436-5543-1"],
   "asid": "11111111111111111111111111111111",
