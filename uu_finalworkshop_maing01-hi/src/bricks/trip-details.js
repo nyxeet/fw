@@ -34,10 +34,12 @@ export const TripDetails = createVisualComponent({
 
     useEffect(() => {
       const currentId = props?.params?.id;
+
       if (currentId) {
         call({ id: currentId });
       }
     }, [props?.params?.id]);
+    console.log(data);
     //@@viewOn:private
 
     //@@viewOff:private

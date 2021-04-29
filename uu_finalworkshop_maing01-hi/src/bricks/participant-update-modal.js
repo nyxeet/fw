@@ -34,7 +34,6 @@ export const StudentModal = createVisualComponentWithRef({
       open: (item) => {
         currentIdRef.current = item;
         updateModalRef.current.open({
-          header: <UU5.Bricks.Text content={"Update participant"} />,
           content: <UpdateParticipantForm item={item} handleSave={handleUpdate} handleCancel={handleCancel} />,
         });
       },

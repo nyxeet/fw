@@ -1,6 +1,9 @@
 const Lsi = {
   header: {
-    en: "Update new participant",
+    en: "Update participant",
+  },
+  headerCreate: {
+    en: "Create new participant",
   },
   info: {
     en: "Info",

@@ -25,7 +25,6 @@ export const TripCreateForm = createVisualComponent({
   //@@viewOff:defaultProps
 
   render({ item, handleSave, handleCancel }) {
-    console.log("hahahah", item);
     const inputLsi = useLsiValues(Lsi);
     const imageRef = useRef();
     //@@viewOn:private

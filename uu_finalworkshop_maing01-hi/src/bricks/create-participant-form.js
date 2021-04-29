@@ -40,7 +40,7 @@ export const TripCreateForm = createVisualComponent({
         level={2}
         header={
           <UU5.Forms.ContextHeader
-            content={<UU5.Bricks.Lsi lsi={Lsi.header} />}
+            content={<UU5.Bricks.Lsi lsi={Lsi.headerCreate} />}
             info={<UU5.Bricks.Lsi lsi={Lsi.info} />}
           />
         }

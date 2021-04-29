@@ -32,16 +32,24 @@ export const StudentModal = createVisualComponentWithRef({
     useImperativeHandle(ref, () => ({
       open: () => {
         modalRef.current.open({
-          header: <UU5.Bricks.Text content={"Create participant"} />,
           content: <CreateParticipantForm handleSave={handleCreate} handleCancel={handleCancel} />,
         });
       },
     }));
     //@@viewOn:private
-    function handleCreate(opt) {
-      modalRef.current.close(true, () => {
-        handlerMap.createParticipant({ ...opt.values, tripId });
+    function showError(content) {
+      UU5.Environment.getPage().getAlertBus().addAlert({
+        content,
+        colorSchema: "red",
       });
+    }
+    async function handleCreate(opt) {
+      try {
+        await handlerMap.createParticipant({ ...opt.values, tripId });
+        modalRef.current.close();
+      } catch (error) {
+        showError(error.message);
+      }
     }
     function handleCancel() {
       modalRef.current.close();

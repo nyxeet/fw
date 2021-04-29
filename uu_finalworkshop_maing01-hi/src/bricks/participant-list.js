@@ -30,7 +30,6 @@ export const ParticipantList = createVisualComponentWithRef({
     const updateModalRef = useRef();
 
     const { data: participantsList, handlerMap } = useContext(ParticipantContext);
-
     useEffect(() => {
       if (participants.length > 0) {
         handlerMap.load({ ids: participants });
@@ -67,7 +66,7 @@ export const ParticipantList = createVisualComponentWithRef({
         {participantsList &&
           participantsList.map((item) => {
             return (
-              <UU5.Bricks.Row>
+              <UU5.Bricks.Row key={item.id}>
                 <UU5.Bricks.Card style={{ display: "flex", alignItems: "center" }}>
                   <UU5.Bricks.Image
                     src="https://opencartforum.com/storage/attachment/monthly_2020_06/no-img.png.056bf2e130881dec0f753ea5d0228c26.png"

@@ -50,11 +50,11 @@ export const Students = createVisualComponentWithRef({
     function renderTile(tripsData) {
       const trip = tripsData.data.data;
       return (
-        <UU5.Bricks.Card key={trip.id} style={{ display: "flex", alignItems: "center" }}>
+        <UU5.Bricks.Card key={trip.id} style={{ display: "flex", alignItems: "center", padding: "15px" }}>
           <UU5.Bricks.Div>
             <UU5.Bricks.Text style={{ fontSize: "25px" }}>{trip.name}</UU5.Bricks.Text>
 
-            <UU5.Bricks.Button content={`Details ${trip.name}`} onClick={() => handleTripDetails(trip.id)} />
+            <UU5.Bricks.Button content={`Details `} onClick={() => handleTripDetails(trip.id)} />
           </UU5.Bricks.Div>
           <UU5.Bricks.Image
             style={{ marginLeft: "auto" }}
