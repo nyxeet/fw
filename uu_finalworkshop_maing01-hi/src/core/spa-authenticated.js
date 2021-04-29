@@ -9,6 +9,9 @@ import Config from "./config/config";
 import Left from "./left";
 import Bottom from "./bottom";
 import Home from "../routes/home";
+import Trip from "../routes/trip";
+import TripDetails from "../bricks/trip-details";
+import LocationList from "../routes/location-list";
 //@@viewOff:imports
 
 const STATICS = {
@@ -28,6 +31,9 @@ const ROUTES = {
   about: { component: <About /> },
   "sys/uuAppWorkspace/initUve": { component: <InitAppWorkspace /> },
   controlPanel: { component: <ControlPanel /> },
+  tripList: { component: <Trip /> },
+  tripDetails: { component: <TripDetails /> },
+  locationList: { component: <LocationList /> },
 };
 
 export const SpaAuthenticated = createVisualComponent({

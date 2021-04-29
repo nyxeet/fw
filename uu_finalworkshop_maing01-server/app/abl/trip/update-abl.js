@@ -30,7 +30,7 @@ class TripUpdateAbl {
       throw new Error.Main.travelAgencyInstanceNotInProperState();
     }
     // HDS 1 - validation
-    const validationResult = this.validator.validate("participantUpdateDtoInType", dtoIn);
+    const validationResult = this.validator.validate("tripUpdateDtoInType", dtoIn);
     // A1, A2
     uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
@@ -40,15 +40,24 @@ class TripUpdateAbl {
     );
 
     //HDS 2
+
     let uuTrip = await this.dao.get(awid, dtoIn.id);
 
     if (!uuTrip) {
       throw new Errors.Get.TripDoesNotExist({ uuAppErrorMap }, { tripId: dtoIn.id });
     }
-    const uuObject = {
+    let uuObject = {
       ...uuTrip,
       ...dtoIn,
     };
+    if (dtoIn.newParticipant) {
+      const { newParticipant, ...dtoInUp } = dtoIn;
+      uuObject = {
+        ...uuTrip,
+        ...dtoInUp,
+        participantList: [...uuTrip.participantList, newParticipant],
+      };
+    }
 
     // HDS 3
 

@@ -10,13 +10,13 @@ const tripCreateDtoInType = shape({
 });
 const tripUpdateDtoInType = shape({
   id: id().isRequired(),
-  name: uu5String(100).isRequired(),
-  locationId: id().isRequired(),
-  capacity: integer(100).isRequired(),
+  name: uu5String(100),
+  locationId: id(),
+  capacity: integer(100),
   date: date(),
   description: uu5String(5000),
   image: binary(),
-  participantList: array(id()),
+  newParticipant: id(),
 });
 const tripGetDtoInType = shape({
   id: id().isRequired(),

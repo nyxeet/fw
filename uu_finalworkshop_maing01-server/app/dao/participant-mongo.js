@@ -13,9 +13,9 @@ class ParticipantMongo extends UuObjectDao {
     const filter = { awid, id };
     return await super.findOne(filter);
   }
-  async findMany(awid, array = []) {
+  async findMany(awid, array = [], pageInfo = {}) {
     let _ids = array.map((id) => new ObjectId(id));
-    return await super.find({ awid, _id: { $in: _ids } });
+    return await super.find({ awid, _id: { $in: _ids } }, pageInfo);
   }
   async update(uuObject) {
     const { awid, id } = uuObject;

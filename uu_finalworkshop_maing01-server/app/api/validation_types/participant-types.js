@@ -6,6 +6,7 @@ const participantCreateDtoInType = shape({
   internationalId: uu5String(9),
   insurance: integer(),
   email: string(320),
+  tripId: id().isRequired(),
 });
 const participantUpdateDtoInType = shape({
   id: id().isRequired(),

@@ -35,11 +35,11 @@
       },
       "trip/get": {
         "sysStateList": ["active"],
-        "profileList": ["Executives", "Readers"]
+        "profileList": ["Executives","Readers"]
       },
       "trip/list": {
         "sysStateList": ["active"],
-        "profileList": ["Executives", "Readers"]
+        "profileList": ["Executives","Readers"]
       },
       "trip/delete": {
         "sysStateList": ["active"],
@@ -58,6 +58,14 @@
         "profileList": ["Executives"]
       },
       "participant/update": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
+      },
+      "participant/list": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
+      },
+      "location/list": {
         "sysStateList": ["active"],
         "profileList": ["Public"]
       }

@@ -12,6 +12,69 @@
       "appDeploymentUri": null
     }
   },
-  "uu_finalworkshop_maing01-hi": {},
+  "uu_finalworkshop_maing01-hi": {
+    "componentList": [
+      {
+        "code": "UuFinalworkshop.Routes.Trip",
+        "name": "Trip",
+        "tagList": [
+          "UuFinalworkshop",
+          "Routes",
+          "Trip"
+        ],
+        "docCode": "UuFinalworkshopRoutesTrip",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UuFinalworkshop.Routes.Trip />"
+      },
+      {
+        "code": "UuFinalworkshop.Bricks.TripDetails",
+        "name": "TripDetails",
+        "tagList": [
+          "UuFinalworkshop",
+          "Bricks",
+          "TripDetails"
+        ],
+        "docCode": "UuFinalworkshopBricksTripDetails",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UuFinalworkshop.Bricks.TripDetails />"
+      },
+      {
+        "code": "UuFinalworkshop.Bricks.TripDescription",
+        "name": "TripDescription",
+        "tagList": [
+          "UuFinalworkshop",
+          "Bricks",
+          "TripDescription"
+        ],
+        "docCode": "UuFinalworkshopBricksTripDescription",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UuFinalworkshop.Bricks.TripDescription />"
+      },
+      {
+        "code": "UuFinalworkshop.Bricks.ParticipantList",
+        "name": "ParticipantList",
+        "tagList": [
+          "UuFinalworkshop",
+          "Bricks",
+          "ParticipantList"
+        ],
+        "docCode": "UuFinalworkshopBricksParticipantList",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UuFinalworkshop.Bricks.ParticipantList />"
+      }
+    ]
+  },
   "uu_finalworkshop_maing01-server": {}
 }

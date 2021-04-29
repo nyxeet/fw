@@ -22,6 +22,42 @@ let Calls = {
     let commandUri = Calls.getCommandUri("sys/uuAppWorkspace/initUve");
     return Calls.call("get", commandUri, {});
   },
+  updateTrip(dtoIn) {
+    let commandUri = Calls.getCommandUri("trip/update");
+    return Calls.call("post", commandUri, dtoIn);
+  },
+  listLocation(dtoIn) {
+    let commandUri = Calls.getCommandUri("location/list");
+    return Calls.call("get", commandUri, dtoIn);
+  },
+  getTrip(dtoIn) {
+    let commandUri = Calls.getCommandUri("trip/get");
+    return Calls.call("get", commandUri, dtoIn);
+  },
+  createTrip(dtoIn) {
+    let commandUri = Calls.getCommandUri("trip/create");
+    return Calls.call("post", commandUri, dtoIn);
+  },
+  createParticipant(dtoIn) {
+    let commandUri = Calls.getCommandUri("participant/create");
+    return Calls.call("post", commandUri, dtoIn);
+  },
+  updateParticipant(dtoIn) {
+    let commandUri = Calls.getCommandUri("participant/update");
+    return Calls.call("post", commandUri, dtoIn);
+  },
+  deleteTrip(dtoIn) {
+    let commandUri = Calls.getCommandUri("trip/delete");
+    return Calls.call("post", commandUri, dtoIn);
+  },
+  listTrip(dtoIn) {
+    let commandUri = Calls.getCommandUri("trip/list");
+    return Calls.call("get", commandUri, dtoIn);
+  },
+  listParticipant(dtoIn) {
+    let commandUri = Calls.getCommandUri("participant/list");
+    return Calls.call("get", commandUri, dtoIn);
+  },
 
   initWorkspace(dtoInData) {
     let commandUri = Calls.getCommandUri("sys/uuAppWorkspace/init");

@@ -38,7 +38,19 @@ const Create = {
   },
 };
 
+const List = {
+  UC_CODE: `${LOCATION_ERROR_PREFIX}list/`,
+  ListTripDaoFailed: class extends FinalworkshopMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}listTripDaoFailed`;
+      this.message = "ListTripDaoFailed";
+    }
+  },
+};
+
 module.exports = {
+  List,
   Create,
   Main,
 };

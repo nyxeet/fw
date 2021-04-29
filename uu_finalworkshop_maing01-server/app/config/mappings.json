@@ -55,6 +55,16 @@
         "realization": "api/controllers/ParticipantController.update",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "participant/list": {
+        "realization": "api/controllers/ParticipantController.list",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "location/list": {
+        "realization": "api/controllers/LocationController.list",
+        "httpMethod": "GET",
+        "type": "CMD"
       }
     }
   }

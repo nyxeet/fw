@@ -2,6 +2,8 @@
 import { createVisualComponent } from "uu5g04-hooks";
 import Plus4U5 from "uu_plus4u5g01";
 import "uu_plus4u5g01-app";
+import TripProvider from "../bricks/trip-provider";
+import ParticipantProvider from "../bricks/participant-provider";
 
 import Config from "./config/config.js";
 import SpaAuthenticated from "./spa-authenticated.js";
@@ -32,7 +34,11 @@ export const Spa = createVisualComponent({
     //@@viewOn:render
     return (
       <Plus4U5.App.Spa {...props} appName="uuFinalworkshop">
-        <SpaAuthenticated />
+        <TripProvider>
+          <ParticipantProvider>
+            <SpaAuthenticated />
+          </ParticipantProvider>
+        </TripProvider>
       </Plus4U5.App.Spa>
     );
     //@@viewOff:render

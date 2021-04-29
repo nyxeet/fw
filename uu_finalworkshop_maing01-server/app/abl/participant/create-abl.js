@@ -16,6 +16,7 @@ class ParticipantAbl {
     this.validator = Validator.load();
     this.dao = DaoFactory.getDao("participant");
     this.mainDao = DaoFactory.getDao("finalworkshopMain");
+    this.tripDao = DaoFactory.getDao("trip");
   }
 
   async create(uri, dtoIn, uuAppErrorMap = {}) {
@@ -52,6 +53,14 @@ class ParticipantAbl {
       throw new Errors.Create.ParticipantDaoCreateFailed({ uuAppErrorMap }, e);
     }
     //HDS 3 add participant to trip list
+    let uuTrip = await this.tripDao.get(awid, dtoIn.tripId);
+
+    const upTrip = {
+      ...uuTrip,
+      participantList: [...uuTrip.participantList, participant.id],
+    };
+
+    uuTrip = await this.tripDao.update(upTrip);
 
     //HDS 4 - return
     return {

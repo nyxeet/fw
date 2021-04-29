@@ -47,7 +47,10 @@ class DeleteAbl {
 
     // HDS 3
     //HDS 3.B.1
-    const countOfParticipants = trip.participantList.length;
+    let countOfParticipants = 0;
+    if (trip.participantList) {
+      countOfParticipants = trip.participantList.length;
+    }
 
     //HDS 3.B.2
 

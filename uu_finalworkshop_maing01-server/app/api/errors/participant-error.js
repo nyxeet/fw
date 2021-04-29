@@ -66,7 +66,20 @@ const Update = {
   },
 };
 
+const List = {
+  UC_CODE: `${PARTICIPANT_ERROR_PREFIX}list/`,
+
+  ListParticipantDaoFailed: class extends FinalworkshopMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Update.UC_CODE}participantListError`;
+      this.message = "Participant does not exist";
+    }
+  },
+};
+
 module.exports = {
+  List,
   Create,
   Main,
   Update,

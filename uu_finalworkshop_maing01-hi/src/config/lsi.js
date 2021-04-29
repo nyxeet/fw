@@ -13,6 +13,12 @@ const Lsi = {
       cs: "O aplikaci",
       en: "About Application",
     },
+    trip: {
+      en: "Trip list",
+    },
+    location: {
+      en: "Location list",
+    },
   },
 
   about: {
@@ -34,7 +40,7 @@ const Lsi = {
     termsOfUse: {
       cs: "Podmínky užívání",
       en: "Terms of use",
-    }
+    },
   },
 
   notAuth: {
