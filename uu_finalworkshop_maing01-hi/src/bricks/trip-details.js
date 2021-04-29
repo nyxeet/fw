@@ -39,7 +39,6 @@ export const TripDetails = createVisualComponent({
         call({ id: currentId });
       }
     }, [props?.params?.id]);
-    console.log(data);
     //@@viewOn:private
 
     //@@viewOff:private
