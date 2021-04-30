@@ -72,7 +72,8 @@ export const ParticipantList = createVisualComponentWithRef({
                     height="100px"
                   />
 
-                  <UU5.Bricks.Text content={item.data.name} style={{ fontSize: "25px" }} />
+                  <UU5.Bricks.Text content={item.data.name} style={{ fontSize: "25px", marginRight: "10px" }} />
+                  <UU5.Bricks.Text content={item.data.surname} style={{ fontSize: "25px" }} />
 
                   <UU5.Bricks.ButtonGroup size="l" vertical style={{ marginLeft: "auto" }}>
                     <UU5.Bricks.Button onClick={() => openUpdateModal(item)} colorSchema={"info"}>
